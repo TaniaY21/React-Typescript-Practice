@@ -1,16 +1,19 @@
-import React from 'react';
-import TodoModel from '../../Models/TodoModel';
-import styles from './Todos.module.css'
+import React, { useContext } from 'react';
+import styles from './Todos.module.css';
 import TodoItem from '../TodoItem/TodoItem';
+import { TodosContext } from '../../Store/todo-context';
 
-//generic type defined here. Define own props. Can make option by 'items?:'
-const Todos: React.FC<{ items: TodoModel[] }> = (props) => {
+const Todos: React.FC = () => {
+  const todoCtx = useContext(TodosContext);
 
-  
   return (
     <ul className={styles.todos}>
-      {props.items.map((item) => (
-        <TodoItem key={item.id} text={item.text}>
+      {todoCtx.items.map((item) => (
+        <TodoItem
+          key={item.id}
+          text={item.text}
+          onRemoveTodo={todoCtx.removeTodo.bind(null, item.id)}
+        >
           {item.text}
         </TodoItem>
       ))}
